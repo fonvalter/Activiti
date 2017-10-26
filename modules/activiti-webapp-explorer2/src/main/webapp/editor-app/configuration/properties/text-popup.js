@@ -146,7 +146,8 @@ httpGetAsync(getScriptTemplateListControllerPath(), function (responseText) {
     }
     editor.setValue(utility.unescapeQuotes(scriptValue), 1);
     jsonObject.vars.forEach(function (item, i, arr) {
-      jQuery("#outTable").append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.name) + '\"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.type) + '\"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.description) + '\"></td></tr>')
+        // jQuery("#outTable").append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.name) + '\"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.type) + '\"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.description) + '\"></td></tr>')
+        jQuery("#outTable").append('<tr><td><input type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.name) + '\"></td><td><input class="inType" type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.type) + '\"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input type="text" value = \"' + utility.unescapeQuotesToQuotChr(item.description) + '\"></td></tr>')
     });
     changeJson();
       jQuery("#outTable").find("tr").not(':first').click(function () {
@@ -187,12 +188,13 @@ jQuery("#removeBtn").click(function () {
   var next = selected.next();
   selected.remove();
   next.addClass('selected');
-  changeJson();
+    // changeJson();
 });
 
 jQuery("#addBtn").click(function () {
     var outTable = jQuery("#outTable");
-    outTable.append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td></tr>')
+    // outTable.append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td></tr>')
+    outTable.append('<tr><td><input type="text"></td><td><input class="inType" type="text"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td></tr>')
     outTable.find("tr").unbind("click");
     outTable.find("tr").not(':first').click(function () {
     jQuery(this).addClass('selected').siblings().removeClass('selected');
@@ -204,7 +206,13 @@ function textChanged() {
   changeJson();
 }
 
+jQuery("#saveBtn").click(function () {
+    changeJson();
+    this.close();
+});
+
 function changeJson() {
+    alert("changeJson");
     var script = variableMethodsDefinition + editor.getSession().getValue();
 
   var scriptLines = script.split('\n');
