@@ -145,7 +145,7 @@ httpGetAsync(getScriptTemplateListControllerPath(), function (responseText) {
         }
         editor.setValue(StringUtils.unescapeQuotes(scriptValue), 1);
         jsonObject.vars.forEach(function (item, i, arr) {
-            jQuery("#outTable").append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.name) + '\"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.type) + '\"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.description) + '\"></td></tr>')
+            jQuery("#outTable").append('<tr><td><input onchange="changeJson();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.name) + '\"></td><td><input class="inType" onchange="changeJson();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.type) + '\"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="changeJson();" oninput="this.onchange();" type="text" value = \"' + StringUtils.unescapeQuotesToQuotChr(item.description) + '\"></td></tr>')
         });
         changeJson();
         jQuery("#outTable").find("tr").not(':first').click(function () {
@@ -191,19 +191,19 @@ jQuery("#removeBtn").click(function () {
 
 jQuery("#addBtn").click(function () {
     var outTable = jQuery("#outTable");
-    outTable.append('<tr><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td><td><input class="inType" onchange="textChanged();" oninput="this.onchange();" type="text"><div class="dropdown-btn"><span class="caret"></span></div></td><td><input onchange="textChanged();" oninput="this.onchange();" type="text"></td></tr>')
+    var appendStr = '<tr><td><input onchange="changeJson();" oninput="this.onchange();" type="text"></td>';
+    appendStr += '<td><input class="inType" onchange="changeJson();" oninput="changeJson();" type="text"><div class="dropdown-btn"><span class="caret"></span></div></td>';
+    appendStr += '<td><input onchange="changeJson();" oninput="this.onchange();" type="text"></td></tr>';
+    outTable.append(appendStr);
     outTable.find("tr").unbind("click");
     outTable.find("tr").not(':first').click(function () {
-    jQuery(this).addClass('selected').siblings().removeClass('selected');
+        jQuery(this).addClass('selected').siblings().removeClass('selected');
     });
-  initAutoComplete();
+    initAutoComplete();
 });
 
-function textChanged() {
-  changeJson();
-}
-
 function changeJson() {
+    alert("changeJxon");
     var script = variableMethodsDefinition + editor.getSession().getValue();
 
   var scriptLines = script.split('\n');
@@ -251,6 +251,9 @@ function initAutoComplete() {
   var input = document.getElementsByClassName("inType");
   for (var i = 0; i < input.length; i++) {
     if (!input[i].parentElement.classList.contains('awesomplete')) {
+        input[i].addEventListener("input", function () {
+            alert(this.value)
+        });
       var comboplete = new Awesomplete(input[i], {
           minChars: 1,
           list: ["Integer", "Double", "String", "Boolean", "BigDecimal", "Date", "Time", "DateTime", "Map", "Set", "List"]
@@ -259,6 +262,7 @@ function initAutoComplete() {
       var obj = {};
       obj.c = comboplete;
       obj.b = dropdownBtn;
+        obj.i = input[i];
       comboplets.push(obj);
       initDropDownListeners();
     }
@@ -266,23 +270,24 @@ function initAutoComplete() {
 }
 
 function initDropDownListeners() {
-  comboplets.each(function (item, i, arr) {
-    if (!item.added) {
-      item.added = true;
-      item.b.addEventListener("click", function () {
-        closeAllOtherComboplets(item.c);
-        var comboplete = item.c;
-        if (comboplete.ul.childNodes.length === 0) {
-          comboplete.minChars = 0;
-          comboplete.evaluate();
-        } else if (comboplete.ul.hasAttribute('hidden')) {
-          comboplete.open();
-        } else {
-          comboplete.close();
+    comboplets.each(function (item, i, arr) {
+        if (!item.added) {
+            item.added = true;
+            item.b.addEventListener("click", function () {
+                closeAllOtherComboplets(item.c);
+                var comboplete = item.c;
+                if (comboplete.ul.childNodes.length === 0) {
+                    comboplete.minChars = 0;
+                    comboplete.evaluate();
+                } else if (comboplete.ul.hasAttribute('hidden')) {
+                    comboplete.open();
+                } else {
+                    comboplete.close();
+                }
+                alert(item.i.value);
+            })
         }
-      })
-    }
-  })
+    })
 }
 
 jQuery("#filterInput").keyup(function () {

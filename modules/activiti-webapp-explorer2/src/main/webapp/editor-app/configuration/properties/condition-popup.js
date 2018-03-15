@@ -57,11 +57,6 @@ editor.setOptions({
 });
 editor.completers.push(variablesWordCompleter);
 
-
-function textChanged() {
-  changeJson();
-}
-
 if (jsonObject) {
     var scriptRows = jsonObject.script;
     var scriptValue = '';
