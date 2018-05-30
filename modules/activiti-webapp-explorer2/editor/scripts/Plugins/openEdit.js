@@ -19,8 +19,11 @@ ORYX.Plugins.OpenEdit = Clazz.extend({
             func = KisBpmBeanSelectCtrl[2];
             sc = this.getScope("beanselect", shape)
 		} else if (shape.properties['oryx-scripttext'] !== undefined) {
-			func = KisBpmTextPropertyCtrl[2];
+            func = KisBpmTextPropertyCtrl[2];
             sc = this.getScope("scripttext", shape)
+        } else if (shape.properties['oryx-variableselect']){
+            func = KisBpmVariableSelectCtrl[2];
+            sc = this.getScope("variableselect", shape)
 		} else {
 			return;
 		}

@@ -18465,9 +18465,12 @@ ORYX.Plugins.OpenEdit = Clazz.extend({
 		} else if (shape.properties['oryx-scripttext'] !== undefined) {
             func = KisBpmTextPropertyCtrl[2];
             sc = this.getScope("scripttext", shape)
-		} else {
-			return;
-		}
+        } else if (shape.properties['oryx-variableselect'] !== undefined) {
+            func = KisBpmVariableSelectCtrl[2];
+            sc = this.getScope("variableselect", shape)
+        } else {
+            return;
+        }
 		var mod = sc.getModal();
 		func(sc, mod);
 	},

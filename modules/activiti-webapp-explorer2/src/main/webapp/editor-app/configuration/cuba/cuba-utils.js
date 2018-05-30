@@ -56,6 +56,16 @@ function getAffectedNodesForSelectedShape() {
             result.push(nodeVariablesWrapper)
         }
     }
+    if (selectedShapeValue._stencil._jsonStencil.id.includes("IntegrationNode")) {
+        var variableText = selectedShapeValue.properties['oryx-variableselect'];
+        var variablejson = parseJson(variableText);
+        if (variablejson && variableText.outputName) {
+            var nodeVariablesWrapper = {};
+            nodeVariablesWrapper.id = 'root';
+            nodeVariablesWrapper.vars = variablejson.outputName;
+            result.push(nodeVariablesWrapper)
+        }
+    }
 
     var jsonModel = angScope.editor.getJSON();
     var childShapes = jsonModel.childShapes;
@@ -121,6 +131,17 @@ function getVariables(shape) {
             if (beanJson) {
                 variable.name = beanJson.outputName;
                 variable.type = beanJson.outputType;
+                vars.push(variable)
+            }
+            break;
+        case 'SelectionNode':
+            var text = shape.properties.variablenames;
+            var variableJson = parseJson(text);
+
+            var variable = {};
+            if (variableJson) {
+                variable.inputName = variableJson.inputName;
+                variable.outputName = variableJson.outputName;
                 vars.push(variable)
             }
             break;

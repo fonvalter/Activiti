@@ -101,6 +101,14 @@ var KisBpmTextPropertyCtrl = [ '$scope', '$modal', function($scope, $modal) {
     $modal(opts);
 }];
 
+var KisBpmVariableSelectCtrl = ['$scope', '$modal', function ($scope, $modal) {
+    var opts = {
+        template: 'editor-app/configuration/properties/selection-popup.html?version=' + Date.now(),
+        scope: $scope
+    };
+    $modal(opts);
+}];
+
 var KisBpmBeanSelectCtrl = [ '$scope', '$modal', function($scope, $modal) {
     // alert("KisBpmBeanSelectCtrl")
     var opts = {

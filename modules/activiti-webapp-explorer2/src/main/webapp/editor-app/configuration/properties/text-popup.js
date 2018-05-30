@@ -9,7 +9,7 @@ if (jsonString) {
   jsonObject = null;
 }
 
-var typeList = ["Integer", "Double", "String", "Boolean", "BigDecimal", "Date", "Time", "DateTime", "Map", "Set", "List"]
+var typeList = ["Integer", "Double", "String", "Boolean", "BigDecimal", "Date", "Time", "DateTime", "Map", "Set", "List"];
 
 ace.require("ace/ext/language_tools");
 var editor = ace.edit("editor");
